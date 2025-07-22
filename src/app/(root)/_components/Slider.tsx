@@ -1,5 +1,5 @@
 'use client';
-import { getSupabasePublicImageUrl } from '@/lib/utils';
+import { getSupabasePublicImagePathUrl } from '@/lib/utils';
 import Image from 'next/image';
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -7,16 +7,24 @@ import { Autoplay } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 const items = [
-  { id: 1, imgUrl: getSupabasePublicImageUrl('banners', 'main/1.png') },
-  { id: 2, imgUrl: getSupabasePublicImageUrl('banners', 'main/2.png') },
-  { id: 3, imgUrl: getSupabasePublicImageUrl('banners', 'main/3.png') },
-  { id: 4, imgUrl: getSupabasePublicImageUrl('banners', 'main/4.png') },
-  { id: 5, imgUrl: getSupabasePublicImageUrl('banners', 'main/5.png') },
+  { id: 1, imgUrl: getSupabasePublicImagePathUrl('banners/main/1.png') },
+  { id: 2, imgUrl: getSupabasePublicImagePathUrl('banners/main/2.png') },
+  { id: 3, imgUrl: getSupabasePublicImagePathUrl('banners/main/3.png') },
+  { id: 4, imgUrl: getSupabasePublicImagePathUrl('banners/main/4.png') },
+  { id: 5, imgUrl: getSupabasePublicImagePathUrl('banners/main/5.png') },
 ];
 
 const Slider = () => {
   return (
-    <Swiper slidesPerView={2} pagination={{ clickable: true }} modules={[Autoplay]} loop>
+    <Swiper
+      breakpoints={{
+        640: { slidesPerView: 2 }, // sm
+        768: { slidesPerView: 3 }, // md
+        1024: { slidesPerView: 4 }, // lg
+      }}
+      modules={[Autoplay]}
+      loop
+    >
       {items.map((item) => (
         <SwiperSlide key={item.id}>
           <div className='bg-gray-200 aspect-square text-center'>
