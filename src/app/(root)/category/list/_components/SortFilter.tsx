@@ -1,5 +1,6 @@
 'use client';
 
+import SubSlider from '@/app/(root)/_components/SubSlider';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 const SortFilter = () => {
@@ -13,34 +14,40 @@ const SortFilter = () => {
   };
 
   return (
-    <aside className='flex lg:flex-col gap-2 sticky top-[112px] h-fit lg:w-[200px] bg-white py-4'>
-      <h4 className='font-semibold'>Sort by</h4>
-      <ul className='flex flex-col gap-2'>
-        <li
-          className='text-sm font-medium hover:underline hover:decoration-2 hover:underline-offset-4 cursor-pointer'
-          onClick={() => handleSort('name')}
-        >
-          Name
-        </li>
-        <li
-          className='text-sm font-medium hover:underline hover:decoration-2 hover:underline-offset-4 cursor-pointer'
-          onClick={() => handleSort('newest')}
-        >
-          Newest
-        </li>
-        <li
-          className='text-sm font-medium hover:underline hover:decoration-2 hover:underline-offset-4 cursor-pointer'
-          onClick={() => handleSort('price-low-to-high')}
-        >
-          Price: Low to High
-        </li>
-        <li
-          className='text-sm font-medium hover:underline hover:decoration-2 hover:underline-offset-4 cursor-pointer'
-          onClick={() => handleSort('price-high-to-low')}
-        >
-          Price: High to Low
-        </li>
-      </ul>
+    <aside className='flex flex-col sticky top-[112px] lg:w-[300px] h-fit py-4 gap-10 bg-white z-10'>
+      <div className='flex flex-col gap-2'>
+        <h4 className='font-semibold'>Sort by</h4>
+        <ul className='flex md:flex-col justify-between gap-2'>
+          <li
+            className='text-sm font-medium hover:underline hover:decoration-2 hover:underline-offset-4 cursor-pointer'
+            onClick={() => handleSort('name')}
+          >
+            이름순
+          </li>
+          <li
+            className='text-sm font-medium hover:underline hover:decoration-2 hover:underline-offset-4 cursor-pointer'
+            onClick={() => handleSort('newest')}
+          >
+            최신순
+          </li>
+          <li
+            className='text-sm font-medium hover:underline hover:decoration-2 hover:underline-offset-4 cursor-pointer'
+            onClick={() => handleSort('price-low-to-high')}
+          >
+            높은 가격 순
+          </li>
+          <li
+            className='text-sm font-medium hover:underline hover:decoration-2 hover:underline-offset-4 cursor-pointer'
+            onClick={() => handleSort('price-high-to-low')}
+          >
+            낮은 가격 순
+          </li>
+        </ul>
+      </div>
+
+      <div className='mt-auto hidden lg:block'>
+        <SubSlider />
+      </div>
     </aside>
   );
 };
