@@ -14,13 +14,7 @@ const items = [
 
 const Slider = () => {
   return (
-    <Swiper
-      slidesPerView={1}
-      loop
-      modules={[Autoplay]}
-      autoplay={{ delay: 4000, disableOnInteraction: false }}
-      className='w-full'
-    >
+    <Swiper slidesPerView={1} loop modules={[Autoplay]} autoplay={{ delay: 4000, disableOnInteraction: false }}>
       {items.map((item) => (
         <SwiperSlide key={item.id}>
           <div className='relative w-full aspect-[3000/1120]'>
