@@ -1,12 +1,22 @@
-import { getSupabasePublicImagePathUrl } from '@/lib/utils';
+import { cn, getSupabasePublicImagePathUrl } from '@/lib/utils';
 import { Tables } from '@/types/supabase';
 import { Heart } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-const Product = ({ product }: { product: Tables<'products'> }) => {
+interface ProductProps {
+  product: Tables<'products'>;
+  isSquare?: boolean;
+}
+
+const Product = ({ product, isSquare = false }: ProductProps) => {
   return (
-    <div className='aspect-[3/4] relative rounded-md overflow-hidden shadow-sm bg-white'>
+    <div
+      className={cn(
+        'aspect-[3/4] relative rounded-md overflow-hidden shadow-sm bg-white shrink-0',
+        isSquare && 'aspect-square'
+      )}
+    >
       <Link href={`/products/${product.product_id}`}>
         <Image
           src={getSupabasePublicImagePathUrl(product.thumbnail as string)}

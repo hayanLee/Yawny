@@ -1,3 +1,4 @@
+import RecommendProducts from '@/app/(root)/_components/Product/RecommendProducts';
 import { getSupabasePublicImagePathUrl } from '@/lib/utils';
 import { Tables } from '@/types/supabase';
 import { Params } from '@/types/utils';
@@ -9,6 +10,7 @@ import CustomerServicePolicy from './_components/CustomerServicePolicy';
 import DeliveryPolicy from './_components/DeliveryPolicy';
 import OrderDetails from './_components/OrderDetails';
 import ProductActionButtons from './_components/ProductActionButtons';
+import Review from './_components/Review';
 import SizeSelector from './_components/SizeSelector';
 
 const ProductPage = async ({ params }: { params: Params }) => {
@@ -18,7 +20,7 @@ const ProductPage = async ({ params }: { params: Params }) => {
     await data.json();
 
   return (
-    <main className='mx-auto w-full md:max-w-3xl lg:max-w-7xl h-full'>
+    <main className='mx-auto w-full md:max-w-3xl lg:max-w-7xl pb-28 flex flex-col gap-10 px-4'>
       <Breadcrumb category={product.categories.name} brand={product.brands.name} />
       <BrandSummary
         brandName={product.brands.name}
@@ -26,6 +28,7 @@ const ProductPage = async ({ params }: { params: Params }) => {
         brandId={product.brand_id}
       />
 
+      {/* 상품 상단 정보 */}
       <div className='flex w-full flex-col lg:flex-row gap-4'>
         <div className='w-full lg:w-[60%] aspect-square bg-gray-100 overflow-hidden rounded-lg relative flex items-center justify-center'>
           <Image
@@ -54,6 +57,7 @@ const ProductPage = async ({ params }: { params: Params }) => {
         </div>
       </div>
 
+      {/* 상품 설명 */}
       <section className='mt-8 bg-white p-6 flex flex-col gap-4'>
         <h5 className='text-lg font-bold mb-3 tracking-tight'>상품 설명</h5>
         <p>{product.name}</p>
@@ -78,8 +82,32 @@ const ProductPage = async ({ params }: { params: Params }) => {
           className='object-contain mx-auto'
         />
       </section>
-      <section className='flex flex-col md:flex-row bg-orange-300'>추천 상품</section>
-      <section className='flex flex-col md:flex-row bg-green-300'>리뷰</section>
+
+      {/* 추천 상품 */}
+      <section className='flex flex-col'>
+        <h5 className='text-lg font-bold mb-3 tracking-tight'>추천 상품</h5>
+        <RecommendProducts categoryId={product.category_id} />
+      </section>
+
+      {/* 리뷰 */}
+      <section className='flex flex-col'>
+        <h5 className='text-lg font-bold mb-3 tracking-tight'>리뷰 (0)</h5>
+        <ul className='grid grid-cols-3 gap-2 grid-rows-2 lg:px-44'>
+          <li className='flex w-full aspect-square bg-pink-200'>1</li>
+          <li className='flex w-full aspect-square bg-pink-200'>2</li>
+          <li className='flex w-full aspect-square bg-pink-200'>3</li>
+          <li className='flex w-full aspect-square bg-pink-200'>4</li>
+          <li className='flex w-full aspect-square bg-pink-200'>5</li>
+          <li className='flex w-full aspect-square bg-pink-200'>더보기</li>
+        </ul>
+        <ul>
+          <Review />
+          <Review />
+          <Review />
+        </ul>
+      </section>
+
+      {/* 배송 정보 */}
       <DeliveryPolicy />
       <CustomerServicePolicy />
     </main>
