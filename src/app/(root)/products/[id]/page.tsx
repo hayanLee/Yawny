@@ -86,7 +86,7 @@ const ProductPage = async ({ params }: { params: Params }) => {
       {/* 추천 상품 */}
       <section className='flex flex-col'>
         <h5 className='text-lg font-bold mb-3 tracking-tight'>추천 상품</h5>
-        <RecommendProducts categoryId={product.category_id} />
+        <RecommendProducts categoryId={product.category_id} productId={product.product_id} />
       </section>
 
       {/* 리뷰 */}

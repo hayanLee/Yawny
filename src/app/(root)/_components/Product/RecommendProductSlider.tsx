@@ -11,7 +11,7 @@ type Props = {
 
 const RecommendProductSlider = ({ products }: Props) => {
   return (
-    <Swiper spaceBetween={12} slidesPerView={'auto'}>
+    <Swiper spaceBetween={12} slidesPerView={'auto'} className='w-full'>
       {products.map((product) => (
         <SwiperSlide key={product.product_id} style={{ width: 'auto' }}>
           <Product product={product} isSquare />

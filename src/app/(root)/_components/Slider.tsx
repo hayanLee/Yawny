@@ -7,28 +7,31 @@ import { Autoplay } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 const items = [
-  { id: 1, imgUrl: getSupabasePublicImagePathUrl('banners/main/1.png') },
-  { id: 2, imgUrl: getSupabasePublicImagePathUrl('banners/main/2.png') },
-  { id: 3, imgUrl: getSupabasePublicImagePathUrl('banners/main/3.png') },
-  { id: 4, imgUrl: getSupabasePublicImagePathUrl('banners/main/4.png') },
-  { id: 5, imgUrl: getSupabasePublicImagePathUrl('banners/main/5.png') },
+  { id: 1, imgUrl: getSupabasePublicImagePathUrl('banners/main/001.jpg') },
+  { id: 2, imgUrl: getSupabasePublicImagePathUrl('banners/main/002.jpg') },
+  { id: 3, imgUrl: getSupabasePublicImagePathUrl('banners/main/003.jpg') },
 ];
 
 const Slider = () => {
   return (
     <Swiper
-      breakpoints={{
-        640: { slidesPerView: 2 }, // sm
-        768: { slidesPerView: 3 }, // md
-        1024: { slidesPerView: 4 }, // lg
-      }}
-      modules={[Autoplay]}
+      slidesPerView={1}
       loop
+      modules={[Autoplay]}
+      autoplay={{ delay: 4000, disableOnInteraction: false }}
+      className='w-full'
     >
       {items.map((item) => (
         <SwiperSlide key={item.id}>
-          <div className='bg-gray-200 aspect-square text-center'>
-            <Image src={item.imgUrl} alt={`${item.id}번째 배너`} fill className='object-cover' />
+          <div className='relative w-full aspect-[3000/1120]'>
+            <Image
+              src={item.imgUrl}
+              alt={`${item.id}번째 배너`}
+              fill
+              className='object-cover'
+              sizes='100vw'
+              priority={item.id === 1}
+            />
           </div>
         </SwiperSlide>
       ))}

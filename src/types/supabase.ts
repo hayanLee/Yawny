@@ -150,6 +150,7 @@ export type Database = {
           name: string
           price: number
           product_id: string
+          sale_percent: number
           sizes: string[]
           thumbnail: string
         }
@@ -161,6 +162,7 @@ export type Database = {
           name: string
           price: number
           product_id?: string
+          sale_percent?: number
           sizes: string[]
           thumbnail: string
         }
@@ -172,6 +174,7 @@ export type Database = {
           name?: string
           price?: number
           product_id?: string
+          sale_percent?: number
           sizes?: string[]
           thumbnail?: string
         }
@@ -189,6 +192,51 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "categories"
             referencedColumns: ["id"]
+          },
+        ]
+      }
+      reviews: {
+        Row: {
+          created_at: string
+          description: string | null
+          image_url: string | null
+          product_id: string
+          review_id: number
+          star: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          image_url?: string | null
+          product_id: string
+          review_id?: number
+          star?: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          image_url?: string | null
+          product_id?: string
+          review_id?: number
+          star?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reviews_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["product_id"]
+          },
+          {
+            foreignKeyName: "reviews_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["user_id"]
           },
         ]
       }

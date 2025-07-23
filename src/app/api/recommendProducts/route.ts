@@ -4,8 +4,13 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function GET(request: NextRequest) {
   const supabase = await createClient();
   const categoryId = request.nextUrl.searchParams.get('categoryId');
+  const productId = request.nextUrl.searchParams.get('productId');
 
-  const { data, error } = await supabase.from('products').select('*').eq('category_id', categoryId);
+  const { data, error } = await supabase
+    .from('products')
+    .select('*')
+    .eq('category_id', categoryId)
+    .neq('product_id', productId);
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });

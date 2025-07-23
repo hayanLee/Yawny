@@ -10,26 +10,45 @@ interface ProductProps {
 }
 
 const Product = ({ product, isSquare = false }: ProductProps) => {
+  // 할인 가격 계산
+  const isSale = product.sale_percent && product.sale_percent > 0;
+  const salePrice = isSale ? Math.floor(product.price * (1 - product.sale_percent / 100)) : product.price;
+
   return (
-    <div
-      className={cn(
-        'aspect-[3/4] relative rounded-md overflow-hidden shadow-sm bg-white shrink-0',
-        isSquare && 'aspect-square'
-      )}
-    >
+    <div className={cn('overflow-hidden aspect-[3/4]', isSquare && 'w-[220px]')}>
       <Link href={`/products/${product.product_id}`}>
-        <Image
-          src={getSupabasePublicImagePathUrl(product.thumbnail as string)}
-          alt={product.name}
-          width={300}
-          height={600} // aspect ratio 1:2 유지
-          className='object-cover hover:scale-105 transition-transform duration-300 w-full h-full'
-          priority
-        />
-        <Heart className='absolute top-2 right-2 text-white' />
-        <div className='absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4 text-white'>
-          <h4 className='font-semibold text-lg truncate'>{product.name}</h4>
-          <p className='text-sm mt-1'>{product.price}원</p>
+        {/* 이미지 영역 */}
+        <div className='relative w-full aspect-square flex items-center justify-center overflow-hidden'>
+          <Image
+            src={getSupabasePublicImagePathUrl(product.thumbnail as string)}
+            alt={product.name}
+            fill
+            className='object-cover transition-transform duration-300 hover:scale-105'
+            priority
+            sizes='100vw'
+          />
+          {/* 하트 아이콘 */}
+          <Heart className='absolute top-2 right-2 text-white/80 drop-shadow-md bg-black/30 rounded-full p-1 w-7 h-7 hover:text-red-400 transition-colors' />
+          {/* 할인율 뱃지 */}
+          {isSale && (
+            <span className='absolute top-2 left-2 bg-blue-500 text-white text-xs font-bold px-2 py-1 rounded'>
+              {product.sale_percent}% OFF
+            </span>
+          )}
+        </div>
+        {/* 정보 영역 */}
+        <div className='py-3 flex flex-col grow'>
+          <h4 className='font-semibold text-base truncate'>{product.name}</h4>
+          <div className='flex items-center gap-2'>
+            {isSale ? (
+              <>
+                <span className='text-sm text-gray-400 line-through'>{product.price.toLocaleString('ko-KR')}원</span>
+                <span className='font-extrabold text-blue-500'>{salePrice.toLocaleString('ko-KR')}원</span>
+              </>
+            ) : (
+              <span className=' font-extrabold text-gray-900'>{product.price.toLocaleString('ko-KR')}원</span>
+            )}
+          </div>
         </div>
       </Link>
     </div>

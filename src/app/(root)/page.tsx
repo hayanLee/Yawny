@@ -5,11 +5,14 @@ import Slider from './_components/Slider';
 export default function HomePage() {
   return (
     <>
-      <main className='space-y-4'>
-        <Slider />
-        <Products />
+      <Slider />
+      <main className='lg:max-w-[90%] px-4 mx-auto pb-[100px]'>
+        {/* <SubSlider /> */}
+        <section className='py-4'>
+          <Products />
+        </section>
+        <Policy />
       </main>
-      <Policy />
     </>
   );
 }

@@ -2,7 +2,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 
 const Policy = () => {
   return (
-    <Accordion type='single' collapsible className='w-full' defaultValue='item-1'>
+    <Accordion type='single' collapsible className='border-t border-gray-200 pt-4'>
       <AccordionItem value='item-1'>
         <AccordionTrigger>사업자 정보</AccordionTrigger>
         <AccordionContent className='flex flex-col gap-4 text-balance'>
