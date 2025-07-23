@@ -145,6 +145,7 @@ export type Database = {
         Row: {
           brand_id: string
           category_id: string
+          created_at: string
           description: string
           has_stock: boolean
           name: string
@@ -157,6 +158,7 @@ export type Database = {
         Insert: {
           brand_id: string
           category_id: string
+          created_at?: string
           description: string
           has_stock?: boolean
           name: string
@@ -169,6 +171,7 @@ export type Database = {
         Update: {
           brand_id?: string
           category_id?: string
+          created_at?: string
           description?: string
           has_stock?: boolean
           name?: string

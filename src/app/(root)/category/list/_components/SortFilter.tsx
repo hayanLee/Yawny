@@ -18,9 +18,9 @@ const SortFilter = () => {
       <ul className='flex flex-col gap-2'>
         <li
           className='text-sm font-medium hover:underline hover:decoration-2 hover:underline-offset-4 cursor-pointer'
-          onClick={() => handleSort('relevance')}
+          onClick={() => handleSort('name')}
         >
-          Relevance
+          Name
         </li>
         <li
           className='text-sm font-medium hover:underline hover:decoration-2 hover:underline-offset-4 cursor-pointer'
