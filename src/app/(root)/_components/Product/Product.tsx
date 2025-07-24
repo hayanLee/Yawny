@@ -15,43 +15,44 @@ const Product = ({ product, isSquare = false }: ProductProps) => {
   const salePrice = isSale ? Math.floor(product.price * (1 - product.sale_percent / 100)) : product.price;
 
   return (
-    <div className={cn('overflow-hidden aspect-[3/4]', isSquare && 'w-[220px]')}>
-      <Link href={`/products/${product.product_id}`}>
-        {/* 이미지 영역 */}
-        <div className='relative w-full aspect-square flex items-center justify-center overflow-hidden'>
-          <Image
-            src={getSupabasePublicImagePathUrl(product.thumbnail as string)}
-            alt={product.name}
-            fill
-            className='object-cover transition-transform duration-300 hover:scale-105'
-            priority
-            sizes='100vw'
-          />
-          {/* 하트 아이콘 */}
-          <Heart className='absolute top-2 right-2 text-white/80 drop-shadow-md bg-black/30 rounded-full p-1 w-7 h-7 hover:text-red-400 transition-colors' />
-          {/* 할인율 뱃지 */}
-          {isSale && (
-            <span className='absolute top-2 left-2 bg-blue-500 text-white text-xs font-bold px-2 py-1 rounded'>
-              {product.sale_percent}% OFF
-            </span>
+    <Link
+      href={`/products/${product.product_id}`}
+      className={cn('flex flex-col overflow-hidden aspect-[1/1.2]', isSquare && 'w-[220px]')}
+    >
+      {/* 이미지 영역 */}
+      <div className='relative w-full aspect-square flex items-center justify-center overflow-hidden'>
+        <Image
+          src={getSupabasePublicImagePathUrl(product.thumbnail as string)}
+          alt={product.name}
+          fill
+          className='object-cover transition-transform duration-300 hover:scale-105'
+          priority
+          sizes='100vw'
+        />
+        {/* 하트 아이콘 */}
+        <Heart className='absolute top-2 right-2 text-white/80 drop-shadow-md bg-black/30 rounded-full p-1 w-7 h-7 hover:text-red-400 transition-colors' />
+        {/* 할인율 뱃지 */}
+        {isSale && (
+          <span className='absolute top-2 left-2 bg-blue-500 text-white text-xs font-bold px-2 py-1 rounded'>
+            {product.sale_percent}% OFF
+          </span>
+        )}
+      </div>
+      {/* 정보 영역 */}
+      <div className='py-2 flex flex-col grow'>
+        <h4 className='font-semibold text-sm sm:text-base truncate '>{product.name}</h4>
+        <div className='flex items-center gap-2'>
+          {isSale ? (
+            <>
+              <span className='text-sm text-gray-400 line-through'>{product.price.toLocaleString('ko-KR')}원</span>
+              <span className='font-extrabold text-blue-500'>{salePrice.toLocaleString('ko-KR')}원</span>
+            </>
+          ) : (
+            <span className=' font-extrabold text-gray-900'>{product.price.toLocaleString('ko-KR')}원</span>
           )}
         </div>
-        {/* 정보 영역 */}
-        <div className='py-3 flex flex-col grow'>
-          <h4 className='font-semibold text-base truncate'>{product.name}</h4>
-          <div className='flex items-center gap-2'>
-            {isSale ? (
-              <>
-                <span className='text-sm text-gray-400 line-through'>{product.price.toLocaleString('ko-KR')}원</span>
-                <span className='font-extrabold text-blue-500'>{salePrice.toLocaleString('ko-KR')}원</span>
-              </>
-            ) : (
-              <span className=' font-extrabold text-gray-900'>{product.price.toLocaleString('ko-KR')}원</span>
-            )}
-          </div>
-        </div>
-      </Link>
-    </div>
+      </div>
+    </Link>
   );
 };
 
