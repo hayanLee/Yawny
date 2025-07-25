@@ -9,7 +9,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
         <Header />
         <Navigation />
       </div>
-      <main className='w-full'>{children}</main>
+      <main className='w-full h-[calc(100dvh-112px)]'>{children}</main>
     </div>
   );
 };

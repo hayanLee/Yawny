@@ -11,7 +11,9 @@ const Header = () => {
         <CircleUserRound />
         <Heart />
         <ShoppingCart />
-        <Lock />
+        <Link href='/login'>
+          <Lock />
+        </Link>
         <LockOpen />
       </nav>
     </div>
