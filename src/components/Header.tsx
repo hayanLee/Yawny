@@ -10,7 +10,9 @@ const Header = () => {
       <nav className='flex items-center gap-4'>
         <CircleUserRound />
         <Heart />
-        <ShoppingCart />
+        <Link href='/cart'>
+          <ShoppingCart />
+        </Link>
         <Link href='/login'>
           <Lock />
         </Link>

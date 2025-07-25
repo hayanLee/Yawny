@@ -7,7 +7,7 @@ export default function HomePage() {
   return (
     <>
       <Slider />
-      <main className='lg:max-w-[90%] px-4 mx-auto pb-[100px]'>
+      <main className='custom-container'>
         <section className='py-4'>
           <h4 className='text-xl font-bold py-4'>All Products</h4>
           <Products />
