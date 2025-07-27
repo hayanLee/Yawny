@@ -25,7 +25,7 @@ const MypageFilter = () => {
         <h4 className='text-lg font-bold'>나의 계정정보</h4>
         <ul>
           <li>
-            <Link href='/mypage/info'>회원정보 수정</Link>
+            <Link href='/mypage/account/password-confirm'>회원정보 수정</Link>
           </li>
           <li>
             <Link href='/mypage/coupon-mileage'>쿠폰/마일리지</Link>
