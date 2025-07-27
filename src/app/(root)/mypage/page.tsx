@@ -61,33 +61,7 @@ const reviewItems = [
 
 const MyPage = () => {
   return (
-    <main className='flex flex-col grow space-y-10'>
-      {/* 쿠폰, 리뷰, 마일리지 */}
-      <div className='grid grid-cols-4 bg-black text-white gap-4 p-4'>
-        <div className='flex flex-col justify-between gap-4'>
-          <h4 className='flex items-center gap-1 text-lg font-semibold'>멤버십 등급</h4>
-          <p className='text-2xl font-bold'>Newbie</p>
-        </div>
-        <div className='flex flex-col justify-between gap-4'>
-          <Link href='/mypage/coupon-mileage' className='flex items-center gap-1 text-lg font-semibold'>
-            쿠폰 <ChevronRight size={20} />
-          </Link>
-          <p className='text-2xl font-bold'>3</p>
-        </div>
-        <div className='flex flex-col justify-between gap-4'>
-          <Link href='/mypage/review' className='flex items-center gap-1 text-lg font-semibold'>
-            작성한 리뷰 <ChevronRight size={20} />
-          </Link>
-          <p className='text-2xl font-bold'>0</p>
-        </div>
-        <div className='flex flex-col justify-between gap-4'>
-          <Link href='/mypage/coupon-mileage' className='flex items-center gap-1 text-lg font-semibold'>
-            마일리지 <ChevronRight size={20} />
-          </Link>
-          <p className='text-2xl font-bold'>100</p>
-        </div>
-      </div>
-
+    <main>
       {/* 주문 내역 */}
       <div>
         <div className='flex items-center justify-between border-b-3'>
