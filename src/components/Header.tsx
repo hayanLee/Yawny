@@ -9,7 +9,9 @@ const Header = () => {
       </Link>
       <nav className='flex items-center gap-4'>
         <CircleUserRound />
-        <Heart />
+        <Link href='/wish/product'>
+          <Heart />
+        </Link>
         <Link href='/cart'>
           <ShoppingCart />
         </Link>
