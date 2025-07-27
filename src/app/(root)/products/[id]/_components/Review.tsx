@@ -6,23 +6,23 @@ const Review = () => {
       {/* 별점 */}
       <div className='flex items-center justify-between'>
         <div className='flex gap-1'>
-          <Star fill='' />
-          <Star fill='' />
-          <Star fill='' />
-          <Star fill='' />
-          <Star />
+          <Star size={16} fill='black' />
+          <Star size={16} fill='black' />
+          <Star size={16} fill='black' />
+          <Star size={16} />
+          <Star size={16} />
         </div>
         <p className='text-sm text-gray-500'>2025-07-23</p>
       </div>
 
-      <div className='flex items-center justify-between'>
+      <div className='flex items-center justify-between text-sm text-gray-500'>
         <div>
-          <p className='text-sm text-gray-500'>user***</p>
+          <p>user***</p>
           <p>
-            사이즈 : <span className='font-semibold'>M</span>
+            사이즈 : <span className='font-semibold text-black'>M</span>
           </p>
         </div>
-        <div className='aspect-square w-16 lg:w-20  bg-yellow-300'>img</div>
+        <div className='w-16 h-12 lg:w-16 lg:h-16 bg-yellow-300'>img</div>
       </div>
 
       <p className='text-sm'>

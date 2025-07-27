@@ -8,7 +8,9 @@ const Header = () => {
         YAWNY
       </Link>
       <nav className='flex items-center gap-4'>
-        <CircleUserRound />
+        <Link href='/mypage'>
+          <CircleUserRound />
+        </Link>
         <Link href='/wish/product'>
           <Heart />
         </Link>
