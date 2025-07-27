@@ -1,6 +1,8 @@
+import { Button } from '@/components/ui/button';
 import { Star } from 'lucide-react';
+import Link from 'next/link';
 
-const Review = () => {
+const Review = ({ isOwner = false }: { isOwner?: boolean }) => {
   return (
     <div className='border-b border-gray-200 last:border-b-0 flex flex-col gap-2 p-4'>
       {/* 별점 */}
@@ -31,6 +33,15 @@ const Review = () => {
         ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur
         adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
       </p>
+
+      {isOwner && (
+        <div className='flex gap-2 justify-end'>
+          <Link href={`/mypage/review/edit/${1}`}>
+            <Button variant={'outline'}>수정</Button>
+          </Link>
+          <Button>삭제</Button>
+        </div>
+      )}
     </div>
   );
 };

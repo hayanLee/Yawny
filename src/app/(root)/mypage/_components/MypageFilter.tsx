@@ -32,15 +32,6 @@ const MypageFilter = () => {
           </li>
         </ul>
       </div>
-
-      <div>
-        <h4 className='text-lg font-bold'>고객센터</h4>
-        <ul>
-          <li>
-            <Link href='/mypage/qna'>1:1 문의</Link>
-          </li>
-        </ul>
-      </div>
     </aside>
   );
 };
