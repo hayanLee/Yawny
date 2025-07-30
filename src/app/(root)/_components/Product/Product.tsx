@@ -12,7 +12,7 @@ interface ProductProps {
 const Product = ({ product, isSquare = false }: ProductProps) => {
   // 할인 가격 계산
   const isSale = product.sale_percent && product.sale_percent > 0;
-  const salePrice = isSale ? Math.floor(product.price * (1 - product.sale_percent / 100)) : product.price;
+  const discountPrice = Math.floor(product.price * (1 - product.sale_percent / 100));
 
   return (
     <Link
@@ -45,7 +45,7 @@ const Product = ({ product, isSquare = false }: ProductProps) => {
           {isSale ? (
             <>
               <span className='text-sm text-gray-400 line-through'>{product.price.toLocaleString('ko-KR')}원</span>
-              <span className='font-extrabold text-blue-500'>{salePrice.toLocaleString('ko-KR')}원</span>
+              <span className='font-extrabold text-blue-500'>{discountPrice.toLocaleString('ko-KR')}원</span>
             </>
           ) : (
             <span className=' font-extrabold text-gray-900'>{product.price.toLocaleString('ko-KR')}원</span>

@@ -1,5 +1,6 @@
 import { CircleUserRound, Heart, ShoppingCart } from 'lucide-react';
 import Link from 'next/link';
+import CartBadge from './CartBadge';
 import LockSection from './LockSection';
 
 const Header = () => {
@@ -16,7 +17,10 @@ const Header = () => {
           <Heart />
         </Link>
         <Link href='/cart'>
-          <ShoppingCart />
+          <div className='relative'>
+            <ShoppingCart />
+            <CartBadge />
+          </div>
         </Link>
         <LockSection />
       </nav>

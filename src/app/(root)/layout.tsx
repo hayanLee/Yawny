@@ -1,4 +1,4 @@
-import Header from '@/components/Header';
+import Header from '@/components/Header/Header';
 import Navigation from '@/components/Navigation';
 import Providers from '@/providers';
 import React from 'react';

@@ -11,14 +11,14 @@ import DeliveryPolicy from './_components/DeliveryPolicy';
 import OrderDetails from './_components/OrderDetails';
 import ProductActionButtons from './_components/ProductActionButtons';
 import Review from './_components/Review';
-import SizeSelector from './_components/SizeSelector';
 
 const ProductPage = async ({ params }: { params: Params }) => {
   const { id } = await params;
   const data = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/product?id=${id}`);
   const product: Tables<'products'> & { categories: { name: string }; brands: { name: string; description: string } } =
     await data.json();
-
+  const isSale = product.sale_percent && product.sale_percent > 0;
+  const salePrice = isSale ? Math.floor(product.price * (1 - product.sale_percent / 100)) : product.price;
   return (
     <main className='mx-auto w-full md:max-w-3xl lg:max-w-7xl pb-28 flex flex-col gap-10 px-4'>
       <Breadcrumb category={product.categories.name} brand={product.brands.name} />
@@ -45,15 +45,21 @@ const ProductPage = async ({ params }: { params: Params }) => {
             <Heart className='text-gray-400 hover:text-red-400 transition-colors cursor-pointer' />
           </div>
           <div>
-            <p className='text-3xl text-blue-600 font-extrabold mb-2'>
-              {product.price.toLocaleString('ko-KR')}
-              <span className='text-base font-normal text-gray-500'>원</span>
-            </p>
-            <p className='text-sm text-gray-500'>{product.description}</p>
+            {isSale ? (
+              <>
+                <span className='text-3xl text-blue-600 font-extrabold mb-2'>
+                  {salePrice.toLocaleString('ko-KR')}원
+                </span>
+                <span className='text-sm text-gray-400 line-through'>{product.price.toLocaleString('ko-KR')}원</span>
+              </>
+            ) : (
+              <span className='text-3xl text-blue-600 font-extrabold mb-2'>
+                {product.price.toLocaleString('ko-KR')}원
+              </span>
+            )}
           </div>
           <OrderDetails />
-          <SizeSelector sizes={product.sizes} />
-          <ProductActionButtons />
+          <ProductActionButtons product={product} />
         </div>
       </div>
 
