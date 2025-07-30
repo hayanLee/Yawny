@@ -1,5 +1,6 @@
-import { CircleUserRound, Heart, Lock, LockOpen, ShoppingCart } from 'lucide-react';
+import { CircleUserRound, Heart, ShoppingCart } from 'lucide-react';
 import Link from 'next/link';
+import LockSection from './LockSection';
 
 const Header = () => {
   return (
@@ -17,10 +18,7 @@ const Header = () => {
         <Link href='/cart'>
           <ShoppingCart />
         </Link>
-        <Link href='/login'>
-          <Lock />
-        </Link>
-        <LockOpen />
+        <LockSection />
       </nav>
     </div>
   );
