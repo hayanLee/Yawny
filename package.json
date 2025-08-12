@@ -10,8 +10,10 @@
     "gen": "npx supabase gen types typescript --project-id pvomvtjtztbkqevkrrlm --schema public > src/types/supabase.ts"
   },
   "dependencies": {
+    "@portone/browser-sdk": "^0.0.24",
     "@radix-ui/react-accordion": "^1.2.11",
     "@radix-ui/react-checkbox": "^1.3.2",
+    "@radix-ui/react-label": "^2.1.7",
     "@radix-ui/react-select": "^2.2.5",
     "@radix-ui/react-slot": "^1.2.3",
     "@supabase/ssr": "^0.6.1",
