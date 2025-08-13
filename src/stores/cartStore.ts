@@ -2,7 +2,7 @@ import { Tables } from '@/types/supabase';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-type CartItem = Pick<Tables<'products'>, 'product_id' | 'name' | 'price' | 'thumbnail' | 'brand_id'> & {
+export type CartItem = Pick<Tables<'products'>, 'product_id' | 'name' | 'price' | 'thumbnail' | 'brand_id'> & {
   brand_name: string;
   size: string;
   quantity: number;
@@ -15,8 +15,8 @@ interface CartState {
 
 interface CartActions {
   addItem: (item: CartItem) => void;
-  removeItem: (productId: string) => void;
-  updateQuantity: (productId: string, quantity: number) => void;
+  removeItem: (productId: string, size: string) => void;
+  updateQuantity: (productId: string, size: string, quantity: number) => void;
   clearCart: () => void;
   getTotalItems: () => number;
 }
@@ -50,19 +50,20 @@ export const useCartStore = create<CartStore>()(
         }
       },
 
-      removeItem: (productId) => {
-        set({ items: get().items.filter((item) => item.product_id !== productId) });
+      removeItem: (productId, size) => {
+        set({ items: get().items.filter((item) => !(item.product_id === productId && item.size === size)) });
       },
 
-      updateQuantity: (productId, quantity) => {
+      updateQuantity: (productId, size, quantity) => {
         // 1개면 삭제
-        if (quantity <= 0) {
-          get().removeItem(productId);
+        if (quantity < 1) {
           return;
         }
 
         set({
-          items: get().items.map((item) => (item.product_id === productId ? { ...item, quantity } : item)),
+          items: get().items.map((item) =>
+            item.product_id === productId && item.size === size ? { ...item, quantity } : item
+          ),
         });
       },
 
