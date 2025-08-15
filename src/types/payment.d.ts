@@ -1,4 +1,4 @@
-import { CartItem } from '@/types/Cart';
+import { CartItem } from '@/types/cart';
 
 // 포트원 요청
 export interface PaymentRequest {

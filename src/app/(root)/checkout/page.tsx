@@ -67,7 +67,7 @@ const CheckoutPage = () => {
     return () => {
       clearCheckoutData();
     };
-  }, [clearCheckoutData]);
+  }, [clearCheckoutData, checkoutData]);
 
   const handlePayment = async (provider: EasyPayProvider) => {
     console.log(provider);

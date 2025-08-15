@@ -11,7 +11,7 @@ export async function loginAction(formData: FormData) {
   let errorOccurred = false;
 
   try {
-    const { data, error } = await supabase.auth.signInWithPassword({
+    const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });

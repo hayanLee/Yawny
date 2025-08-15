@@ -1,4 +1,4 @@
-import { CartItem } from '@/types/Cart';
+import { CartItem } from '@/types/cart';
 import { OrderSummary } from '@/types/payment';
 
 export const createOrderSummary = (items: CartItem[]): OrderSummary => {

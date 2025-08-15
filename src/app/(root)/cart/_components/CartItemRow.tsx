@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { getSupabasePublicImagePathUrl } from '@/lib/utils';
-import { CartItem } from '@/stores/cartStore';
+import { CartItem } from '@/types/cart';
 import { formatPrice } from '@/utils/utils';
 import { Minus, Plus, Trash2 } from 'lucide-react';
 import Image from 'next/image';

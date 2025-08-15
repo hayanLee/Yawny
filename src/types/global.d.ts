@@ -1,8 +1,21 @@
 // global.d.ts
-export {};
+interface DaumPostcodeData {
+  zonecode: string; // 우편번호
+  address: string; // 기본 주소 (도로명 또는 지번)
+}
+
+interface DaumPostcode {
+  new (options: { oncomplete: (data: DaumPostcodeData) => void }): {
+    open: () => void;
+  };
+}
 
 declare global {
   interface Window {
-    daum: any; // 혹은 더 정확한 타입 선언 가능
+    daum: {
+      Postcode: DaumPostcode;
+    };
   }
 }
+
+export {};

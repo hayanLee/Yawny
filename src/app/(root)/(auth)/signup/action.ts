@@ -11,7 +11,7 @@ export async function signupAction(formData: FormData) {
   let errorOccurred = false;
 
   try {
-    const { data, error } = await supabase.auth.signUp({
+    const { error } = await supabase.auth.signUp({
       email,
       password,
     });

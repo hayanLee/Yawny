@@ -1,8 +1,11 @@
+'use client';
+import useProducts from '@/hooks/queries/useProducts';
 import { Tables } from '@/types/supabase';
 import Product from './Product';
 
-const Products = async () => {
-  const products = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/products`).then((res) => res.json());
+const Products = () => {
+  const { data: products = [], isLoading } = useProducts();
+  if (isLoading) return <div>Loading...</div>;
   return (
     <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3'>
       {products.map((product: Tables<'products'>) => (

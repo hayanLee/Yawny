@@ -1,16 +1,18 @@
-import Product from '@/app/(root)/_components/Product/Product';
-import { Tables } from '@/types/supabase';
+'use client';
 
-const SalesPage = async () => {
-  const data = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/products?sale=true`);
-  const products = await data.json();
+import Product from '@/app/(root)/_components/Product/Product';
+import useProducts from '@/hooks/queries/useProducts';
+
+export default function SalesPage() {
+  const { data: products, isLoading } = useProducts({ sale: 'true' });
+
+  if (isLoading) return <p>로딩 중...</p>;
+
   return (
     <>
-      {products.map((product: Tables<'products'>) => (
+      {products?.map((product) => (
         <Product key={product.product_id} product={product} />
       ))}
     </>
   );
-};
-
-export default SalesPage;
+}

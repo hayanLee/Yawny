@@ -7,7 +7,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import useListSelection from '@/hooks/useSelectableList';
 import { useCartStore } from '@/stores/cartStore';
 import { useCheckoutStore } from '@/stores/checkoutStore';
-import { CartItem } from '@/types/Cart';
+import { CartItem } from '@/types/cart';
 import { formatPrice } from '@/utils/utils';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
