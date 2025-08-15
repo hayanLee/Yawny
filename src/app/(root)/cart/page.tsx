@@ -1,12 +1,13 @@
 'use client';
 
-import { createOrderSummary } from '@/app/(root)/cart/_utils/calculateOrderSummary';
+import { createOrderSummary } from '@/app/(root)/cart/_utils/cart-utils';
 import AlertModal from '@/components/Modal/AlertModal';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import useListSelection from '@/hooks/useSelectableList';
-import { CartItem, useCartStore } from '@/stores/cartStore';
+import { useCartStore } from '@/stores/cartStore';
 import { useCheckoutStore } from '@/stores/checkoutStore';
+import { CartItem } from '@/types/Cart';
 import { formatPrice } from '@/utils/utils';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -18,7 +19,6 @@ const CartPage = () => {
   const router = useRouter();
   const items = useCartStore((state) => state.items); // 장바구니 상품 목록
   const getItemKey = (item: CartItem) => `${item.product_id}::${item.size}`;
-
   const { removeItem, updateQuantity, clearCart } = useCartStore(); // 장바구니 상품 삭제, 수량 변경, 전체 삭제
   const setCheckoutData = useCheckoutStore((state) => state.setCheckoutData); // 주문 정보 저장
   const [isAlertModalOpen, setIsAlertModalOpen] = useState(false); // 전체 삭제 알림 모달 상태

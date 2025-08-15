@@ -1,13 +1,6 @@
-import { Tables } from '@/types/supabase';
+import { CartItem } from '@/types/Cart';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-
-export type CartItem = Pick<Tables<'products'>, 'product_id' | 'name' | 'price' | 'thumbnail' | 'brand_id'> & {
-  brand_name: string;
-  size: string;
-  quantity: number;
-  discount_price: number;
-};
 
 interface CartState {
   items: CartItem[];

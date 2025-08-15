@@ -1,4 +1,4 @@
-import { CartItem } from '@/stores/cartStore';
+import { CartItem } from '@/types/Cart';
 import { OrderSummary } from '@/types/payment';
 
 export const createOrderSummary = (items: CartItem[]): OrderSummary => {
@@ -7,7 +7,7 @@ export const createOrderSummary = (items: CartItem[]): OrderSummary => {
   const finalAmount = totalAmount + shippingFee;
 
   return {
-    items,
+    orderItems: items,
     totalAmount,
     shippingFee,
     finalAmount,

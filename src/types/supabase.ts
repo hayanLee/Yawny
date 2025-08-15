@@ -7,7 +7,7 @@ export type Json =
   | Json[]
 
 export type Database = {
-  // Allows to automatically instanciate createClient with right options
+  // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
     PostgrestVersion: "12.2.3 (519615d)"
@@ -49,24 +49,40 @@ export type Database = {
       }
       order_items: {
         Row: {
+          brand_id: string
           order_id: string
           order_item_id: string
           price: number
           product_id: string
+          quantity: number
+          size: string
         }
         Insert: {
+          brand_id: string
           order_id: string
           order_item_id?: string
           price: number
           product_id: string
+          quantity?: number
+          size: string
         }
         Update: {
+          brand_id?: string
           order_id?: string
           order_item_id?: string
           price?: number
           product_id?: string
+          quantity?: number
+          size?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "order_items_brand_id_fkey"
+            columns: ["brand_id"]
+            isOneToOne: false
+            referencedRelation: "brands"
+            referencedColumns: ["brand_id"]
+          },
           {
             foreignKeyName: "order_items_order_id_fkey"
             columns: ["order_id"]
@@ -87,21 +103,18 @@ export type Database = {
         Row: {
           created_at: string
           order_id: string
-          status: string
           total_price: number
           user_id: string
         }
         Insert: {
           created_at?: string
           order_id?: string
-          status?: string
           total_price: number
-          user_id: string
+          user_id?: string
         }
         Update: {
           created_at?: string
           order_id?: string
-          status?: string
           total_price?: number
           user_id?: string
         }

@@ -1,4 +1,4 @@
-import { CartItem } from '@/stores/cartStore';
+import { CartItem } from '@/types/Cart';
 
 // 포트원 요청
 export interface PaymentRequest {
@@ -12,13 +12,6 @@ export interface PaymentRequest {
   easyPay: {
     easyPayProvider: 'KAKAO' | 'TOSS'; // 카카오, 토스로 고정
   };
-  customData: {
-    orderId: string;
-    orderDate: string;
-    orderAmount: number;
-    orderCurrency: 'KRW';
-    orderStatus: 'PENDING' | 'PAID' | 'FAILED' | 'CANCELLED';
-  };
 }
 
 export interface PaymentResponse {
@@ -31,7 +24,7 @@ export interface PaymentResponse {
 export type OrderItem = CartItem;
 
 export interface OrderSummary {
-  items: OrderItem[];
+  orderItems: OrderItem[];
   totalAmount: number;
   shippingFee: number;
   finalAmount: number;
@@ -40,4 +33,9 @@ export interface OrderSummary {
 export interface PaymentStatus {
   status: 'IDLE' | 'PENDING' | 'PAID' | 'FAILED';
   message?: string;
+}
+
+export interface PaymentCompleteRequest {
+  paymentId: string;
+  checkoutData: OrderSummary;
 }

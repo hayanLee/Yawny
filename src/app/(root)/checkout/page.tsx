@@ -17,6 +17,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import SectionHeader from '../mypage/_components/SectionHeader';
 import CheckoutAgreementGroup from './_components/CheckoutAgreementGroup';
 import DeliveryForm from './_components/DeliveryForm';
+import { getChannelKey } from './_utils/checkout-utils';
 
 export interface DeliveryFormInput {
   recipient: string; // 수령인
@@ -57,15 +58,10 @@ const CheckoutPage = () => {
       },
     },
   });
-
-  const handlePaymentProviderChange = (provider: EasyPayProvider) => {
-    console.log(provider);
-    setSelectedPaymentProvider(provider);
-  };
+  const handlePaymentProviderChange = (provider: EasyPayProvider) => setSelectedPaymentProvider(provider);
 
   useEffect(() => {
     if (!checkoutData) {
-      alert('주문 정보가 없습니다.');
       router.push('/cart');
     }
     return () => {
@@ -75,38 +71,48 @@ const CheckoutPage = () => {
 
   const handlePayment = async (provider: EasyPayProvider) => {
     console.log(provider);
+    if (!checkoutData) return;
 
     const paymentRequest: PortOnePaymentRequest = {
       storeId: process.env.NEXT_PUBLIC_PORTONE_STORE_ID as string,
-      channelKey:
-        provider === 'EASY_PAY_PROVIDER_KAKAOPAY'
-          ? process.env.NEXT_PUBLIC_KAKAO_CHANNEL_KEY
-          : process.env.NEXT_PUBLIC_TOSSPAY_CHANNEL_KEY,
+      channelKey: getChannelKey(provider),
       paymentId: crypto.randomUUID(),
-      // orderName: `주문 - ${checkoutData.items[0]?.name}${
-      //   checkoutData.items.length > 1 ? ` 외 ${checkoutData.items.length - 1}개` : ''
-      // }`,
-      orderName: 'test',
-      totalAmount: 1000,
+      orderName: `${checkoutData.orderItems[0]?.name}${
+        checkoutData.orderItems.length > 1 && ` 외 ${checkoutData.orderItems.length - 1}개`
+      }`,
+      totalAmount: checkoutData.finalAmount,
       currency: 'CURRENCY_KRW',
       payMethod: PaymentPayMethod.EASY_PAY,
-      easyPay: {
-        easyPayProvider: provider,
-      },
     };
 
     try {
-      const result = await PortOne.requestPayment(paymentRequest);
-      console.log('결제 결과:', result);
+      const payment = await PortOne.requestPayment(paymentRequest);
+      console.log(paymentRequest, '결제 결과:', payment);
 
-      if (result && result.code !== undefined) {
-        alert('결제에 실패했습니다: ' + (result.message || '알 수 없는 오류'));
+      if (payment && payment.code !== undefined) {
+        alert('결제에 실패했습니다: ' + (payment.message || '알 수 없는 오류'));
         return;
       }
 
-      if (result) {
+      console.log(payment, checkoutData);
+
+      // 결제 완료 API 호출
+      const completeResponse = await fetch('/api/payment/complete', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          paymentId: payment?.paymentId, // string
+          checkoutData, // OrderSummary
+        }),
+      });
+
+      if (completeResponse.ok) {
         alert('결제가 완료되었습니다!');
-        router.push('/mypage/order');
+        router.replace('/mypage/order');
+      } else {
+        alert('결제에 실패했습니다: ' + (await completeResponse.text()));
       }
     } catch (error) {
       console.error('결제 오류:', error);
@@ -134,7 +140,7 @@ const CheckoutPage = () => {
         <section>
           <SectionHeader title='상품 정보' />
           <ul>
-            {checkoutData.items.map((item, index) => (
+            {checkoutData.orderItems.map((item, index) => (
               <li key={index} className='flex items-center gap-4 border-b border-gray-200 py-2.5 last:border-none'>
                 <div className='aspect-square overflow-hidden bg-gray-200 shrink-0 rounded'>
                   <Image
@@ -221,11 +227,11 @@ const CheckoutPage = () => {
           <ul className='space-y-2 text-sm text-gray-800'>
             <li className='flex justify-between'>
               <span>총 상품 금액</span>
-              <span>{checkoutData.totalAmount.toLocaleString()}원</span>
+              <span>{formatPrice(checkoutData.totalAmount)}원</span>
             </li>
             <li className='flex justify-between'>
               <span>배송비</span>
-              <span>{checkoutData.shippingFee === 0 ? '무료' : `${checkoutData.shippingFee.toLocaleString()}원`}</span>
+              <span>{checkoutData.shippingFee === 0 ? '무료' : `${formatPrice(checkoutData.shippingFee)}원`}</span>
             </li>
             <li className='flex justify-between'>
               <span>할인 금액</span>
