@@ -1,5 +1,6 @@
 import { getSupabasePublicImagePathUrl } from '@/lib/utils';
 import { OrderData } from '@/types/user';
+import { fetchWithAuth } from '@/utils/utils';
 import { cookies } from 'next/headers';
 import Image from 'next/image';
 import SectionHeader from '../_components/SectionHeader';
@@ -13,11 +14,7 @@ const OrderPage = async () => {
     throw new Error('Supabase auth token not found in cookies');
   }
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/order`, {
-    headers: {
-      Cookie: `${authCookieName}=${authCookieValue}`,
-    },
-  });
+  const res = await fetchWithAuth(`${process.env.NEXT_PUBLIC_BASE_URL}/api/order`);
 
   if (!res.ok) {
     return <div>주문 내역을 불러오지 못했습니다.</div>;
