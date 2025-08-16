@@ -1,6 +1,6 @@
 import { ChevronRight } from 'lucide-react';
 import Link from 'next/link';
-import Review from '../products/[id]/_components/Review';
+import SectionHeader from './_components/SectionHeader';
 
 const orderItems = [
   {
@@ -59,18 +59,18 @@ const reviewItems = [
   },
 ];
 
-const MyPage = () => {
+const MyPage = async () => {
   return (
-    <main>
+    <main className='space-y-4'>
       {/* 주문 내역 */}
       <div>
-        <div className='flex items-center justify-between border-b-3'>
-          <h4 className='text-lg font-bold'>최근 주문 내역</h4>
-          <Link href='/mypage/order' className='flex items-center gap-1'>
-            <span>더보기</span>
+        <SectionHeader title='최근 주문 내역'>
+          <Link href='/mypage/order' className='flex items-center'>
+            <span className='text-sm font-semibold'>더보기</span>
             <ChevronRight size={16} />
           </Link>
-        </div>
+        </SectionHeader>
+
         <div className='flex flex-col divide-y divide-gray-300'>
           {orderItems.map((item) => (
             <div key={item.id} className='flex gap-4 items-center px-4 py-3 hover:underline'>
@@ -95,20 +95,20 @@ const MyPage = () => {
       </div>
 
       {/* 리뷰 */}
-      <div className='gap-4'>
-        <div className='flex items-center justify-between border-b-3'>
-          <h4 className='text-lg font-bold'>작성한 리뷰</h4>
-          <Link href='/mypage/review' className='flex items-center gap-1'>
-            <span>더보기</span>
+      {/* <div className='gap-4'>
+        <SectionHeader title='작성한 리뷰'>
+          <Link href='/mypage/review' className='flex items-center'>
+            <span className='text-sm font-semibold'>더보기</span>
             <ChevronRight size={16} />
           </Link>
-        </div>
+        </SectionHeader>
+
         <div className='flex flex-col divide-y divide-gray-300'>
           {reviewItems.map((review) => (
             <Review key={review.id} />
           ))}
         </div>
-      </div>
+      </div> */}
     </main>
   );
 };

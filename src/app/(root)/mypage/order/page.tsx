@@ -1,68 +1,57 @@
-import { Button } from '@/components/ui/button';
+import { getSupabasePublicImagePathUrl } from '@/lib/utils';
+import { OrderData } from '@/types/user';
+import { cookies } from 'next/headers';
+import Image from 'next/image';
+import SectionHeader from '../_components/SectionHeader';
 
-const orders = [
-  {
-    id: 12,
-    orderNumber: '1234567890',
-    orderDate: '2025-01-01',
-    orderItems: [
-      {
-        id: 1,
-        name: '상품명1',
-        option: 'M',
-        price: 30000,
-        brand: '브랜드명1',
-      },
-      {
-        id: 2,
-        name: '상품명2',
-        option: 'L',
-        price: 50000,
-        brand: '브랜드명1',
-      },
-    ],
-  },
-  {
-    id: 2,
-    orderNumber: '1234567891',
-    orderDate: '2025-01-02',
-    orderItems: [
-      {
-        id: 3,
-        name: '상품명3',
-        option: 'S',
-        price: 70000,
-        brand: '브랜드명2',
-      },
-    ],
-  },
-];
+const OrderPage = async () => {
+  const cookieStore = await cookies();
+  const authCookieName = `sb-${process.env.SUPABASE_PROJECT_REF}-auth-token`;
+  const authCookieValue = cookieStore.get(authCookieName)?.value;
 
-const OrderPage = () => {
+  if (!authCookieValue) {
+    throw new Error('Supabase auth token not found in cookies');
+  }
+
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/order`, {
+    headers: {
+      Cookie: `${authCookieName}=${authCookieValue}`,
+    },
+  });
+
+  if (!res.ok) {
+    return <div>주문 내역을 불러오지 못했습니다.</div>;
+  }
+
+  const { data: orders }: { data: OrderData[] } = await res.json();
   return (
     <main>
-      <div className='flex border-b-3'>
-        <h4 className='text-xl font-bold'>최근 주문 내역</h4>
-      </div>
-
+      <SectionHeader title='최근 주문 내역' />
       <div className='flex flex-col divide-y divide-gray-300'>
         {orders.map((order) => (
-          <div key={order.id} className='px-4 py-3'>
-            <div className='mb-2 text-sm font-bold text-gray-500'>
-              주문일자: {order.orderDate} / 주문번호: {order.orderNumber}
-            </div>
+          <div key={order.order_id} className='px-4 py-3'>
+            <div className='mb-2 text-sm font-bold text-gray-500'>주문일자: {order.created_at.split('T')[0]}</div>
 
-            {order.orderItems.map((item) => (
-              <div key={item.id} className='grid grid-cols-[3fr_100px_1fr] items-center gap-4 py-2'>
+            {order.order_items.map((item) => (
+              <div key={item.product_id} className='flex justify-between items-center gap-4 py-2'>
                 <div className='flex items-center gap-4'>
-                  <div className='w-22 h-22 bg-gray-200 rounded-md overflow-hidden flex-shrink-0' />
+                  <div className='w-22 h-22 bg-gray-200 rounded-md overflow-hidden flex-shrink-0'>
+                    <Image
+                      src={getSupabasePublicImagePathUrl(item.products.thumbnail)}
+                      alt={item.products.name}
+                      width={88}
+                      height={88}
+                      className='object-cover'
+                    />
+                  </div>
                   <div className='flex flex-col gap-1 text-sm'>
-                    <h3 className='text-gray-900 font-semibold text-xs'>{item.brand}</h3>
-                    <p className='font-bold text-base'>{item.name}</p>
-                    <p className='text-gray-500'>SIZE : {item.option}</p>
+                    <h3 className='text-gray-900 font-semibold text-xs'>{item.brands.name}</h3>
+                    <p className='font-bold text-base'>{item.products.name}</p>
+                    <p className='text-gray-500'>
+                      SIZE : {item.size} / 수량 : {item.quantity}
+                    </p>
                   </div>
                 </div>
-                <Button>리뷰 작성</Button>
                 <div className='text-right font-semibold'>{item.price.toLocaleString()}원</div>
               </div>
             ))}
