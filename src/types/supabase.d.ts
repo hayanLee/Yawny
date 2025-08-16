@@ -32,6 +32,90 @@ export type Database = {
         }
         Relationships: []
       }
+      cart_items: {
+        Row: {
+          added_at: string
+          brand_id: string | null
+          cart_id: string
+          cart_item_id: string
+          price: number
+          product_id: string
+          quantity: number
+          size: string | null
+        }
+        Insert: {
+          added_at?: string
+          brand_id?: string | null
+          cart_id: string
+          cart_item_id?: string
+          price: number
+          product_id: string
+          quantity: number
+          size?: string | null
+        }
+        Update: {
+          added_at?: string
+          brand_id?: string | null
+          cart_id?: string
+          cart_item_id?: string
+          price?: number
+          product_id?: string
+          quantity?: number
+          size?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cart_items_brand_id_fkey"
+            columns: ["brand_id"]
+            isOneToOne: false
+            referencedRelation: "brands"
+            referencedColumns: ["brand_id"]
+          },
+          {
+            foreignKeyName: "cart_items_cart_id_fkey"
+            columns: ["cart_id"]
+            isOneToOne: false
+            referencedRelation: "carts"
+            referencedColumns: ["cart_id"]
+          },
+          {
+            foreignKeyName: "cart_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["product_id"]
+          },
+        ]
+      }
+      carts: {
+        Row: {
+          cart_id: string
+          created_at: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          cart_id?: string
+          created_at?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          cart_id?: string
+          created_at?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "carts_user_id_fkey1"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
       categories: {
         Row: {
           id: string
@@ -128,29 +212,39 @@ export type Database = {
           },
         ]
       }
-      product_images: {
+      product_likes: {
         Row: {
-          id: string
-          image_url: string
+          created_at: string
+          like_id: string
           product_id: string
+          user_id: string
         }
         Insert: {
-          id?: string
-          image_url: string
+          created_at?: string
+          like_id?: string
           product_id: string
+          user_id: string
         }
         Update: {
-          id?: string
-          image_url?: string
+          created_at?: string
+          like_id?: string
           product_id?: string
+          user_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "product_images_product_id_fkey"
+            foreignKeyName: "product_likes_product_id_fkey"
             columns: ["product_id"]
             isOneToOne: false
             referencedRelation: "products"
             referencedColumns: ["product_id"]
+          },
+          {
+            foreignKeyName: "product_likes_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["user_id"]
           },
         ]
       }
@@ -262,6 +356,7 @@ export type Database = {
           created_at: string
           email: string
           mileage: number | null
+          nickname: string | null
           phone: string | null
           updated_at: string | null
           user_id: string
@@ -271,6 +366,7 @@ export type Database = {
           created_at?: string
           email: string
           mileage?: number | null
+          nickname?: string | null
           phone?: string | null
           updated_at?: string | null
           user_id: string
@@ -280,6 +376,7 @@ export type Database = {
           created_at?: string
           email?: string
           mileage?: number | null
+          nickname?: string | null
           phone?: string | null
           updated_at?: string | null
           user_id?: string

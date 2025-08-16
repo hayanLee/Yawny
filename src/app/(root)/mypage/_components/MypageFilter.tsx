@@ -27,9 +27,9 @@ const MypageFilter = async () => {
           <li>
             <Link href='/mypage/order'>주문 내역</Link>
           </li>
-          {/* <li>
+          <li>
             <Link href='/mypage/review'>상품 리뷰</Link>
-          </li> */}
+          </li>
         </ul>
       </div>
 
@@ -39,9 +39,9 @@ const MypageFilter = async () => {
           <li>
             <Link href='/mypage/account/password-confirm'>회원정보 수정</Link>
           </li>
-          <li>
+          {/* <li>
             <Link href='/mypage/coupon-mileage'>쿠폰/마일리지</Link>
-          </li>
+          </li> */}
         </ul>
       </div>
     </aside>

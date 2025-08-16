@@ -1,9 +1,10 @@
 import { getSupabasePublicImagePathUrl } from '@/lib/utils';
 import { OrderData } from '@/types/user';
-import { fetchWithAuth } from '@/utils/utils';
+import { fetchWithAuth } from '@/utils/server-utils';
 import { ChevronRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import Review from '../products/[id]/_components/Review';
 import SectionHeader from './_components/SectionHeader';
 
 const reviewItems = [
@@ -84,7 +85,7 @@ const MyPage = async () => {
       </div>
 
       {/* 리뷰 */}
-      {/* <div className='gap-4'>
+      <div className='gap-4'>
         <SectionHeader title='작성한 리뷰'>
           <Link href='/mypage/review' className='flex items-center'>
             <span className='text-sm font-semibold'>더보기</span>
@@ -97,7 +98,7 @@ const MyPage = async () => {
             <Review key={review.id} />
           ))}
         </div>
-      </div> */}
+      </div>
     </main>
   );
 };

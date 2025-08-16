@@ -1,6 +1,6 @@
 import { getSupabasePublicImagePathUrl } from '@/lib/utils';
 import { OrderData } from '@/types/user';
-import { fetchWithAuth } from '@/utils/utils';
+import { fetchWithAuth } from '@/utils/server-utils';
 import { cookies } from 'next/headers';
 import Image from 'next/image';
 import SectionHeader from '../_components/SectionHeader';

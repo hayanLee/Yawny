@@ -1,5 +1,3 @@
-import { ChevronRight } from 'lucide-react';
-import Link from 'next/link';
 import React from 'react';
 import MypageFilter from './_components/MypageFilter';
 
@@ -8,8 +6,7 @@ const MyPageLayout = ({ children }: { children: React.ReactNode }) => {
     <div className='flex flex-col lg:flex-row justify-between w-[80dvw] mx-auto relative gap-4 pb-25'>
       <MypageFilter />
       <div className='flex flex-col grow space-y-10'>
-        {/* 쿠폰, 리뷰, 마일리지 */}
-        <div className='grid grid-cols-4 bg-black text-white gap-4 p-4'>
+        {/* <div className='grid grid-cols-4 bg-black text-white gap-4 p-4'>
           <div className='flex flex-col justify-between gap-4'>
             <h4 className='flex items-center gap-1 text-lg font-semibold'>멤버십 등급</h4>
             <p className='text-2xl font-bold'>Newbie</p>
@@ -32,7 +29,7 @@ const MyPageLayout = ({ children }: { children: React.ReactNode }) => {
             </Link>
             <p className='text-2xl font-bold'>100</p>
           </div>
-        </div>
+        </div> */}
         {children}
       </div>
     </div>
