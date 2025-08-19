@@ -7,11 +7,11 @@ interface CartState {
 }
 
 interface CartActions {
+  setItems: (items: CartItem[]) => void; // 초기화용
   addItem: (item: CartItem) => void;
   removeItem: (productId: string, size: string) => void;
   updateQuantity: (productId: string, size: string, quantity: number) => void;
   clearCart: () => void;
-  getTotalItems: () => number;
 }
 
 type CartStore = CartState & CartActions;
@@ -20,6 +20,10 @@ export const useCartStore = create<CartStore>()(
   persist(
     (set, get) => ({
       items: [],
+
+      setItems: (items) => {
+        set({ items });
+      },
 
       addItem: (newItem) => {
         const { items } = get();
@@ -62,10 +66,6 @@ export const useCartStore = create<CartStore>()(
 
       clearCart: () => {
         set({ items: [] });
-      },
-
-      getTotalItems: () => {
-        return get().items.reduce((total, item) => total + item.quantity, 0);
       },
     }),
     {

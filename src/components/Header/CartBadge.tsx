@@ -2,13 +2,13 @@
 import { useCartStore } from '@/stores/cartStore';
 
 const CartBadge = () => {
-  const totalItems = useCartStore((state) => state.getTotalItems());
+  const items = useCartStore((state) => state.items);
 
   return (
     <>
-      {totalItems > 0 && (
+      {items.length > 0 && (
         <span className='absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-4.5 h-4.5 flex items-center justify-center'>
-          {totalItems}
+          {items.length}
         </span>
       )}
     </>

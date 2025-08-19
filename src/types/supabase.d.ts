@@ -34,34 +34,31 @@ export type Database = {
       }
       cart_items: {
         Row: {
-          added_at: string
-          brand_id: string | null
-          cart_id: string
+          brand_id: string
           cart_item_id: string
           price: number
           product_id: string
           quantity: number
-          size: string | null
+          size: string
+          user_id: string | null
         }
         Insert: {
-          added_at?: string
-          brand_id?: string | null
-          cart_id: string
+          brand_id: string
           cart_item_id?: string
           price: number
           product_id: string
           quantity: number
-          size?: string | null
+          size: string
+          user_id?: string | null
         }
         Update: {
-          added_at?: string
-          brand_id?: string | null
-          cart_id?: string
+          brand_id?: string
           cart_item_id?: string
           price?: number
           product_id?: string
           quantity?: number
-          size?: string | null
+          size?: string
+          user_id?: string | null
         }
         Relationships: [
           {
@@ -72,43 +69,14 @@ export type Database = {
             referencedColumns: ["brand_id"]
           },
           {
-            foreignKeyName: "cart_items_cart_id_fkey"
-            columns: ["cart_id"]
-            isOneToOne: false
-            referencedRelation: "carts"
-            referencedColumns: ["cart_id"]
-          },
-          {
             foreignKeyName: "cart_items_product_id_fkey"
             columns: ["product_id"]
             isOneToOne: false
             referencedRelation: "products"
             referencedColumns: ["product_id"]
           },
-        ]
-      }
-      carts: {
-        Row: {
-          cart_id: string
-          created_at: string
-          updated_at: string
-          user_id: string
-        }
-        Insert: {
-          cart_id?: string
-          created_at?: string
-          updated_at?: string
-          user_id: string
-        }
-        Update: {
-          cart_id?: string
-          created_at?: string
-          updated_at?: string
-          user_id?: string
-        }
-        Relationships: [
           {
-            foreignKeyName: "carts_user_id_fkey1"
+            foreignKeyName: "cart_items_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "users"
