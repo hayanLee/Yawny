@@ -27,7 +27,11 @@ const Product = ({ product, isSquare = false }: ProductProps) => {
           fill
           className='object-cover transition-transform duration-300 hover:scale-105'
           priority
-          sizes='100vw'
+          sizes='
+            (max-width: 768px) 100vw,   /* 모바일에서는 화면 전체 */
+            (max-width: 1200px) 50vw,   /* 태블릿/중간 화면에서는 절반 */
+            33vw                        /* 데스크탑에서는 1/3 */
+          '
         />
         {/* 하트 아이콘 */}
         <Heart className='absolute top-2 right-2 text-white/80 drop-shadow-md bg-black/30 rounded-full p-1 w-7 h-7 hover:text-red-400 transition-colors' />

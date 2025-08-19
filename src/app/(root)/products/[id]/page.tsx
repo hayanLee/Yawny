@@ -1,27 +1,24 @@
 import RecommendProducts from '@/app/(root)/_components/Product/RecommendProducts';
 import { getSupabasePublicImagePathUrl } from '@/lib/utils';
-import { Tables } from '@/types/supabase';
 import { Params } from '@/types/utils';
 import { Heart } from 'lucide-react';
 import Image from 'next/image';
 import BrandSummary from './_components/BrandSummary';
-import Breadcrumb from './_components/Breadcrumb';
 import CustomerServicePolicy from './_components/CustomerServicePolicy';
 import DeliveryPolicy from './_components/DeliveryPolicy';
 import OrderDetails from './_components/OrderDetails';
 import ProductActionButtons from './_components/ProductActionButtons';
-import Review from './_components/Review';
 
 const ProductPage = async ({ params }: { params: Params }) => {
   const { id } = await params;
   const data = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/product?id=${id}`);
-  const product: Tables<'products'> & { categories: { name: string }; brands: { name: string; description: string } } =
-    await data.json();
-  const isSale = product.sale_percent && product.sale_percent > 0;
+  const product = await data.json();
+
+  const isSale = !!product.sale_percent;
   const salePrice = isSale ? Math.floor(product.price * (1 - product.sale_percent / 100)) : product.price;
+
   return (
     <main className='mx-auto w-full md:max-w-3xl lg:max-w-7xl pb-28 flex flex-col gap-10 px-4'>
-      <Breadcrumb category={product.categories.name} brand={product.brands.name} />
       <BrandSummary
         brandName={product.brands.name}
         brandDescription={product.brands.description}
@@ -37,6 +34,7 @@ const ProductPage = async ({ params }: { params: Params }) => {
             fill
             className='object-cover'
             priority
+            sizes='(max-width: 1024px) 100vw, 60vw'
           />
         </div>
         <div className='w-full grow bg-white p-4 flex flex-col gap-6 justify-between'>
@@ -80,13 +78,15 @@ const ProductPage = async ({ params }: { params: Params }) => {
           본 제품은 가상의 샘플 제품이며, 이미지 역시 외부에서 수집한 자료를 사용하였습니다. 상업적 이용이 아닌 학습 및
           프로젝트 목적으로 제작되었음을 알려드립니다.
         </p>
-        <Image
-          src={getSupabasePublicImagePathUrl(product.thumbnail)}
-          alt={product.name}
-          width={600}
-          height={600}
-          className='object-contain mx-auto'
-        />
+        <div className='w-full max-w-[600px] aspect-square relative mx-auto'>
+          <Image
+            src={getSupabasePublicImagePathUrl(product.thumbnail)}
+            alt={product.name}
+            fill
+            className='object-contain'
+            sizes='(max-width: 768px) 100vw, 600px'
+          />
+        </div>
       </section>
 
       {/* 추천 상품 */}
@@ -96,7 +96,7 @@ const ProductPage = async ({ params }: { params: Params }) => {
       </section>
 
       {/* 리뷰 */}
-      <section className='flex flex-col'>
+      {/* <section className='flex flex-col'>
         <h5 className='text-lg font-bold mb-3 tracking-tight'>리뷰 (0)</h5>
         <ul className='grid grid-cols-3 gap-2 grid-rows-2 lg:px-44'>
           <li className='flex w-full aspect-square bg-pink-200'>1</li>
@@ -111,7 +111,7 @@ const ProductPage = async ({ params }: { params: Params }) => {
           <Review />
           <Review />
         </ul>
-      </section>
+      </section> */}
 
       {/* 배송 정보 */}
       <DeliveryPolicy />
