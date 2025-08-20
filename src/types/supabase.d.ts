@@ -17,17 +17,17 @@ export type Database = {
       brands: {
         Row: {
           brand_id: string
-          description: string | null
+          description: string
           name: string
         }
         Insert: {
           brand_id?: string
-          description?: string | null
+          description: string
           name: string
         }
         Update: {
           brand_id?: string
-          description?: string | null
+          description?: string
           name?: string
         }
         Relationships: []
@@ -40,7 +40,7 @@ export type Database = {
           product_id: string
           quantity: number
           size: string
-          user_id: string | null
+          user_id: string
         }
         Insert: {
           brand_id: string
@@ -49,7 +49,7 @@ export type Database = {
           product_id: string
           quantity: number
           size: string
-          user_id?: string | null
+          user_id?: string
         }
         Update: {
           brand_id?: string
@@ -58,7 +58,7 @@ export type Database = {
           product_id?: string
           quantity?: number
           size?: string
-          user_id?: string | null
+          user_id?: string
         }
         Relationships: [
           {

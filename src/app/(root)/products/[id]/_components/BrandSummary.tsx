@@ -1,15 +1,13 @@
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 
-const BrandSummary = ({
-  brandName,
-  brandDescription,
-  brandId,
-}: {
+interface BrandSummaryProps {
   brandName: string;
   brandDescription: string;
   brandId: string;
-}) => {
+}
+
+const BrandSummary = ({ brandName, brandDescription, brandId }: BrandSummaryProps) => {
   return (
     <section className='flex flex-col md:flex-row md:items-center justify-between px-4 py-5 gap-2'>
       <div className='flex flex-col'>

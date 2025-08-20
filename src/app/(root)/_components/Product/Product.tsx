@@ -1,5 +1,6 @@
 import { cn, getSupabasePublicImagePathUrl } from '@/lib/utils';
 import { Tables } from '@/types/supabase';
+import { formatPrice } from '@/utils/utils';
 import { Heart } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -11,7 +12,7 @@ interface ProductProps {
 
 const Product = ({ product, isSquare = false }: ProductProps) => {
   // 할인 가격 계산
-  const isSale = product.sale_percent && product.sale_percent > 0;
+  const isSale = product.sale_percent > 0;
   const discountPrice = Math.floor(product.price * (1 - product.sale_percent / 100));
 
   return (
@@ -48,11 +49,11 @@ const Product = ({ product, isSquare = false }: ProductProps) => {
         <div className='flex items-center gap-2'>
           {isSale ? (
             <>
-              <span className='text-sm text-gray-400 line-through'>{product.price.toLocaleString('ko-KR')}원</span>
-              <span className='font-extrabold text-blue-500'>{discountPrice.toLocaleString('ko-KR')}원</span>
+              <span className='text-gray-400 line-through'>{formatPrice(product.price)}원</span>
+              <span className='font-extrabold text-blue-500'>{formatPrice(discountPrice)}원</span>
             </>
           ) : (
-            <span className=' font-extrabold text-gray-900'>{product.price.toLocaleString('ko-KR')}원</span>
+            <span className='font-extrabold text-gray-900'>{formatPrice(product.price)}원</span>
           )}
         </div>
       </div>

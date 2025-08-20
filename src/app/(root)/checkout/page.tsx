@@ -152,13 +152,16 @@ const CheckoutPage = () => {
                   />
                 </div>
                 <div className='flex flex-col justify-between text-sm text-gray-700 gap-1'>
-                  <p className='text-gray-500 text-xs'>{item.brand_name}</p>
+                  <p className='text-gray-500 text-xs'>{item.brands.name}</p>
                   <div>
                     <h3 className='font-medium'>{item.name}</h3>
                     <p className='text-xs'>옵션: {item.size}</p>
                   </div>
                   <p>
-                    {(item.discount_price || item.price).toLocaleString()}원 / 수량 {item.quantity}개
+                    {item.sale_percent > 0
+                      ? formatPrice(Math.floor(item.price * (1 - item.sale_percent / 100)))
+                      : formatPrice(item.price)}
+                    원 / 수량 {item.quantity}개
                   </p>
                 </div>
               </li>

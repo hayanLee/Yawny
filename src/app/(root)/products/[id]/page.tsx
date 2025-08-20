@@ -1,5 +1,6 @@
 import RecommendProducts from '@/app/(root)/_components/Product/RecommendProducts';
 import { getSupabasePublicImagePathUrl } from '@/lib/utils';
+import { Product } from '@/types/cart';
 import { Params } from '@/types/utils';
 import { Heart } from 'lucide-react';
 import Image from 'next/image';
@@ -12,7 +13,7 @@ import ProductActionButtons from './_components/ProductActionButtons';
 const ProductPage = async ({ params }: { params: Params }) => {
   const { id } = await params;
   const data = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/product?id=${id}`);
-  const product = await data.json();
+  const product: Product = await data.json();
 
   const isSale = !!product.sale_percent;
   const salePrice = isSale ? Math.floor(product.price * (1 - product.sale_percent / 100)) : product.price;

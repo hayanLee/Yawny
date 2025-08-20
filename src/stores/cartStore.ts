@@ -27,15 +27,13 @@ export const useCartStore = create<CartStore>()(
 
       addItem: (newItem) => {
         const { items } = get();
-
         const existingItem = items.find((item) => item.product_id === newItem.product_id && item.size === newItem.size);
-
         if (existingItem) {
           // 기존 아이템이 있으면 수량만 증가
           set({
             items: items.map((item) =>
-              item.product_id === existingItem.product_id
-                ? { ...item, quantity: item.quantity + newItem.quantity }
+              item.product_id === existingItem.product_id && item.size === existingItem.size
+                ? { ...item, quantity: item.quantity + 1 }
                 : item
             ),
           });
@@ -47,12 +45,7 @@ export const useCartStore = create<CartStore>()(
         }
       },
 
-      removeItem: (productId, size) => {
-        set({ items: get().items.filter((item) => !(item.product_id === productId && item.size === size)) });
-      },
-
       updateQuantity: (productId, size, quantity) => {
-        // 1개면 삭제
         if (quantity < 1) {
           return;
         }
@@ -62,6 +55,10 @@ export const useCartStore = create<CartStore>()(
             item.product_id === productId && item.size === size ? { ...item, quantity } : item
           ),
         });
+      },
+
+      removeItem: (productId, size) => {
+        set({ items: get().items.filter((item) => !(item.product_id === productId && item.size === size)) });
       },
 
       clearCart: () => {

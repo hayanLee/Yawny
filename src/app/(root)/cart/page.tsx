@@ -4,11 +4,12 @@ import { createOrderSummary } from '@/app/(root)/cart/_utils/cart-utils';
 import AlertModal from '@/components/Modal/AlertModal';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
+import { useCart } from '@/hooks/queries/useCart';
+import { useCartActions } from '@/hooks/useCartActions';
 import useListSelection from '@/hooks/useSelectableList';
 import { useCartStore } from '@/stores/cartStore';
 import { useCheckoutStore } from '@/stores/checkoutStore';
-import { CartItem } from '@/types/cart';
-import { formatPrice } from '@/utils/utils';
+import { formatPrice, getItemKey } from '@/utils/utils';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -17,19 +18,21 @@ import CartItemRow from './_components/CartItemRow';
 
 const CartPage = () => {
   const router = useRouter();
-  const items = useCartStore((state) => state.items); // 장바구니 상품 목록
-  const getItemKey = (item: CartItem) => `${item.product_id}::${item.size}`;
-  const { removeItem, updateQuantity, clearCart } = useCartStore(); // 장바구니 상품 삭제, 수량 변경, 전체 삭제
   const setCheckoutData = useCheckoutStore((state) => state.setCheckoutData); // 주문 정보 저장
   const [isAlertModalOpen, setIsAlertModalOpen] = useState(false); // 전체 삭제 알림 모달 상태
 
-  const { selectedKeys, selectAll, isSelected, toggleItem, deleteItem } = useListSelection(items, getItemKey);
+  const items = useCartStore((state) => state.items); // 로컬 장바구니 아이템
+  const { data: serverItems } = useCart(); // 로컬 병합한 서버 장바구니
+
+  const cartItems = serverItems ?? items;
+  const { selectedKeys, selectAll, isSelected, toggleItem, deleteItem } = useListSelection(cartItems, getItemKey);
+  const { addToCart, removeFromCart, clearCart } = useCartActions();
 
   const handleRemoveSelected = () => {
     selectedKeys.forEach((itemKey) => {
       const [productId, size] = itemKey.split('::');
       console.log(productId, size);
-      removeItem(productId, size);
+      removeFromCart(productId, size);
       deleteItem(itemKey);
     });
   };
@@ -43,7 +46,7 @@ const CartPage = () => {
     selectAll(false);
   };
 
-  const selectedItemsList = items.filter((item) => isSelected(item));
+  const selectedItemsList = cartItems.filter((item) => isSelected(item));
   const orderSummary = createOrderSummary(selectedItemsList);
 
   const handlePayment = () => {
@@ -52,7 +55,7 @@ const CartPage = () => {
     router.push('/checkout');
   };
 
-  if (items.length === 0) {
+  if (cartItems.length === 0) {
     return (
       <div className='custom-container py-6'>
         <SectionHeader title='장바구니' />
@@ -74,7 +77,7 @@ const CartPage = () => {
             <tr className='text-center'>
               <th className='p-3 w-[50px] border-b border-gray-300'>
                 <Checkbox
-                  checked={selectedKeys.length === items.length}
+                  checked={selectedKeys.length === cartItems.length}
                   onCheckedChange={(checked) => selectAll(!!checked)}
                 />
               </th>
@@ -85,14 +88,14 @@ const CartPage = () => {
             </tr>
           </thead>
           <tbody>
-            {items.map((item) => (
+            {cartItems.map((item) => (
               <CartItemRow
                 key={`${item.product_id}::${item.size}`}
                 item={item}
                 checked={isSelected(item)}
                 onSelect={toggleItem}
-                onRemove={removeItem}
-                onUpdateQuantity={updateQuantity}
+                onRemove={removeFromCart}
+                onUpdateQuantity={() => addToCart(item, item.quantity, item.size)}
               />
             ))}
           </tbody>
@@ -134,7 +137,7 @@ const CartPage = () => {
               handlePayment();
             }}
           >
-            전체 주문 ({items.length}개)
+            전체 주문 ({cartItems.length}개)
           </Button>
         </div>
       </section>

@@ -1,10 +1,16 @@
+import { Tables } from '@/types/supabase';
 import RecommendProductSlider from './RecommendProductSlider';
 
-const RecommendProducts = async ({ categoryId, productId }: { categoryId: string; productId: string }) => {
+interface RecommendProductsProps {
+  categoryId: string;
+  productId: string;
+}
+
+const RecommendProducts = async ({ categoryId, productId }: RecommendProductsProps) => {
   const data = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/recommendProducts?categoryId=${categoryId}&productId=${productId}`
   );
-  const products = await data.json();
+  const products: Tables<'products'>[] = await data.json();
 
   return <RecommendProductSlider products={products} />;
 };

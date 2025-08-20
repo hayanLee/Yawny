@@ -34,7 +34,7 @@ const CartItemRow = ({ item, checked, onSelect, onRemove, onUpdateQuantity }: Ca
           </div>
           <div className='flex flex-col justify-around space-y-2'>
             <div>
-              <p className='text-sm font-semibold text-gray-500'>{item.brand_name}</p>
+              <p className='text-sm font-semibold text-gray-500'>{item.brands.name}</p>
               <h3 className='font-semibold hover:underline'>
                 <Link href={`/products/${item.product_id}`}>{item.name}</Link>
               </h3>
@@ -65,13 +65,15 @@ const CartItemRow = ({ item, checked, onSelect, onRemove, onUpdateQuantity }: Ca
         </div>
       </td>
       <td className='p-4 text-center font-semibold'>
-        {item.discount_price > 0 ? (
+        {item.sale_percent > 0 ? (
           <>
-            <span className='text-blue-500'>{(item.discount_price * item.quantity).toLocaleString()}원</span>
+            <span className='text-blue-500'>
+              {formatPrice(Math.floor(item.price * item.quantity * (1 - item.sale_percent / 100)))}원
+            </span>
             <span className='line-through text-gray-500 text-sm'>{formatPrice(item.price * item.quantity)}원</span>
           </>
         ) : (
-          <span>{formatPrice(item.price * item.quantity)}원</span>
+          <span>{formatPrice(Math.floor(item.price * item.quantity))}</span>
         )}
       </td>
       <td className='p-4 text-center'>
